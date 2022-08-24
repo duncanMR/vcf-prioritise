@@ -1,0 +1,340 @@
+##fileformat=VCFv4.2
+##FILTER=<ID=FS200,Description="FS > 200.0">
+##FILTER=<ID=FS60,Description="FS > 60.0">
+##FILTER=<ID=LowQual,Description="Low quality">
+##FILTER=<ID=MQ40,Description="MQ < 40.0">
+##FILTER=<ID=MQRankSum-12.5,Description="MQRankSum < -12.5">
+##FILTER=<ID=QD2,Description="QD < 2.0">
+##FILTER=<ID=QUAL30,Description="QUAL < 30.0">
+##FILTER=<ID=ReadPosRankSum-20,Description="ReadPosRankSum < -20.0">
+##FILTER=<ID=ReadPosRankSum-8,Description="ReadPosRankSum < -8.0">
+##FILTER=<ID=SOR3,Description="SOR > 3.0">
+##FORMAT=<ID=AD,Number=R,Type=Integer,Description="Allelic depths for the ref and alt alleles in the order listed">
+##FORMAT=<ID=DP,Number=1,Type=Integer,Description="Approximate read depth (reads with MQ=255 or with bad mates are filtered)">
+##FORMAT=<ID=GQ,Number=1,Type=Integer,Description="Genotype Quality">
+##FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype">
+##FORMAT=<ID=PL,Number=G,Type=Integer,Description="Normalized, Phred-scaled likelihoods for genotypes as defined in the VCF specification">
+##GATKCommandLine=<ID=HaplotypeCaller,CommandLine="HaplotypeCaller  --native-pair-hmm-threads 24 --output X6602_raw.vcf --input X6602_sorted.bam --reference hg19.fa  --emit-ref-confidence NONE --gvcf-gq-bands 1 --gvcf-gq-bands 2 --gvcf-gq-bands 3 --gvcf-gq-bands 4 --gvcf-gq-bands 5 --gvcf-gq-bands 6 --gvcf-gq-bands 7 --gvcf-gq-bands 8 --gvcf-gq-bands 9 --gvcf-gq-bands 10 --gvcf-gq-bands 11 --gvcf-gq-bands 12 --gvcf-gq-bands 13 --gvcf-gq-bands 14 --gvcf-gq-bands 15 --gvcf-gq-bands 16 --gvcf-gq-bands 17 --gvcf-gq-bands 18 --gvcf-gq-bands 19 --gvcf-gq-bands 20 --gvcf-gq-bands 21 --gvcf-gq-bands 22 --gvcf-gq-bands 23 --gvcf-gq-bands 24 --gvcf-gq-bands 25 --gvcf-gq-bands 26 --gvcf-gq-bands 27 --gvcf-gq-bands 28 --gvcf-gq-bands 29 --gvcf-gq-bands 30 --gvcf-gq-bands 31 --gvcf-gq-bands 32 --gvcf-gq-bands 33 --gvcf-gq-bands 34 --gvcf-gq-bands 35 --gvcf-gq-bands 36 --gvcf-gq-bands 37 --gvcf-gq-bands 38 --gvcf-gq-bands 39 --gvcf-gq-bands 40 --gvcf-gq-bands 41 --gvcf-gq-bands 42 --gvcf-gq-bands 43 --gvcf-gq-bands 44 --gvcf-gq-bands 45 --gvcf-gq-bands 46 --gvcf-gq-bands 47 --gvcf-gq-bands 48 --gvcf-gq-bands 49 --gvcf-gq-bands 50 --gvcf-gq-bands 51 --gvcf-gq-bands 52 --gvcf-gq-bands 53 --gvcf-gq-bands 54 --gvcf-gq-bands 55 --gvcf-gq-bands 56 --gvcf-gq-bands 57 --gvcf-gq-bands 58 --gvcf-gq-bands 59 --gvcf-gq-bands 60 --gvcf-gq-bands 70 --gvcf-gq-bands 80 --gvcf-gq-bands 90 --gvcf-gq-bands 99 --indel-size-to-eliminate-in-ref-model 10 --use-alleles-trigger false --disable-optimizations false --just-determine-active-regions false --dont-genotype false --max-mnp-distance 0 --dont-trim-active-regions false --max-disc-ar-extension 25 --max-gga-ar-extension 300 --padding-around-indels 150 --padding-around-snps 20 --kmer-size 10 --kmer-size 25 --dont-increase-kmer-sizes-for-cycles false --allow-non-unique-kmers-in-ref false --num-pruning-samples 1 --recover-dangling-heads false --do-not-recover-dangling-branches false --min-dangling-branch-length 4 --consensus false --max-num-haplotypes-in-population 128 --error-correct-kmers false --min-pruning 2 --debug-graph-transformations false --kmer-length-for-read-error-correction 25 --min-observations-for-kmer-to-be-solid 20 --likelihood-calculation-engine PairHMM --base-quality-score-threshold 18 --pair-hmm-gap-continuation-penalty 10 --pair-hmm-implementation FASTEST_AVAILABLE --pcr-indel-model CONSERVATIVE --phred-scaled-global-read-mismapping-rate 45 --native-pair-hmm-use-double-precision false --debug false --use-filtered-reads-for-annotations false --bam-writer-type CALLED_HAPLOTYPES --dont-use-soft-clipped-bases false --capture-assembly-failure-bam false --error-correct-reads false --do-not-run-physical-phasing false --min-base-quality-score 10 --smith-waterman JAVA --use-new-qual-calculator false --annotate-with-num-discovered-alleles false --heterozygosity 0.001 --indel-heterozygosity 1.25E-4 --heterozygosity-stdev 0.01 --standard-min-confidence-threshold-for-calling 10.0 --max-alternate-alleles 6 --max-genotype-count 1024 --sample-ploidy 2 --num-reference-samples-if-no-call 0 --genotyping-mode DISCOVERY --genotype-filtered-alleles false --contamination-fraction-to-filter 0.0 --output-mode EMIT_VARIANTS_ONLY --all-site-pls false --min-assembly-region-size 50 --max-assembly-region-size 300 --assembly-region-padding 100 --max-reads-per-alignment-start 50 --active-probability-threshold 0.002 --max-prob-propagation-distance 50 --interval-set-rule UNION --interval-padding 0 --interval-exclusion-padding 0 --interval-merging-rule ALL --read-validation-stringency SILENT --seconds-between-progress-updates 10.0 --disable-sequence-dictionary-validation false --create-output-bam-index true --create-output-bam-md5 false --create-output-variant-index true --create-output-variant-md5 false --lenient false --add-output-sam-program-record true --add-output-vcf-command-line true --cloud-prefetch-buffer 40 --cloud-index-prefetch-buffer -1 --disable-bam-index-caching false --sites-only-vcf-output false --help false --version false --showHidden false --verbosity INFO --QUIET false --use-jdk-deflater false --use-jdk-inflater false --gcs-max-retries 20 --disable-tool-default-read-filters false --minimum-mapping-quality 20 --disable-tool-default-annotations false --enable-all-annotations false",Version=4.0.6.0,Date="April 27, 2021 9:22:19 AM SAST">
+##INFO=<ID=AC,Number=A,Type=Integer,Description="Allele count in genotypes, for each ALT allele, in the same order as listed">
+##INFO=<ID=AF,Number=A,Type=Float,Description="Allele Frequency, for each ALT allele, in the same order as listed">
+##INFO=<ID=AN,Number=1,Type=Integer,Description="Total number of alleles in called genotypes">
+##INFO=<ID=BaseQRankSum,Number=1,Type=Float,Description="Z-score from Wilcoxon rank sum test of Alt Vs. Ref base qualities">
+##INFO=<ID=ClippingRankSum,Number=1,Type=Float,Description="Z-score From Wilcoxon rank sum test of Alt vs. Ref number of hard clipped bases">
+##INFO=<ID=DP,Number=1,Type=Integer,Description="Approximate read depth; some reads may have been filtered">
+##INFO=<ID=DS,Number=0,Type=Flag,Description="Were any of the samples downsampled?">
+##INFO=<ID=ExcessHet,Number=1,Type=Float,Description="Phred-scaled p-value for exact test of excess heterozygosity">
+##INFO=<ID=FS,Number=1,Type=Float,Description="Phred-scaled p-value using Fisher's exact test to detect strand bias">
+##INFO=<ID=InbreedingCoeff,Number=1,Type=Float,Description="Inbreeding coefficient as estimated from the genotype likelihoods per-sample when compared against the Hardy-Weinberg expectation">
+##INFO=<ID=MLEAC,Number=A,Type=Integer,Description="Maximum likelihood expectation (MLE) for the allele counts (not necessarily the same as the AC), for each ALT allele, in the same order as listed">
+##INFO=<ID=MLEAF,Number=A,Type=Float,Description="Maximum likelihood expectation (MLE) for the allele frequency (not necessarily the same as the AF), for each ALT allele, in the same order as listed">
+##INFO=<ID=MQ,Number=1,Type=Float,Description="RMS Mapping Quality">
+##INFO=<ID=MQRankSum,Number=1,Type=Float,Description="Z-score From Wilcoxon rank sum test of Alt vs. Ref read mapping qualities">
+##INFO=<ID=QD,Number=1,Type=Float,Description="Variant Confidence/Quality by Depth">
+##INFO=<ID=RAW_MQ,Number=1,Type=Float,Description="Raw data for RMS Mapping Quality">
+##INFO=<ID=ReadPosRankSum,Number=1,Type=Float,Description="Z-score from Wilcoxon rank sum test of Alt vs. Ref read position bias">
+##INFO=<ID=SOR,Number=1,Type=Float,Description="Symmetric Odds Ratio of 2x2 contingency table to detect strand bias">
+##contig=<ID=chr1,length=249250621,assembly=hg19.fa>
+##contig=<ID=chr2,length=243199373,assembly=hg19.fa>
+##contig=<ID=chr3,length=198022430,assembly=hg19.fa>
+##contig=<ID=chr4,length=191154276,assembly=hg19.fa>
+##contig=<ID=chr5,length=180915260,assembly=hg19.fa>
+##contig=<ID=chr6,length=171115067,assembly=hg19.fa>
+##contig=<ID=chr7,length=159138663,assembly=hg19.fa>
+##contig=<ID=chr8,length=146364022,assembly=hg19.fa>
+##contig=<ID=chr9,length=141213431,assembly=hg19.fa>
+##contig=<ID=chr10,length=135534747,assembly=hg19.fa>
+##contig=<ID=chr11,length=135006516,assembly=hg19.fa>
+##contig=<ID=chr12,length=133851895,assembly=hg19.fa>
+##contig=<ID=chr13,length=115169878,assembly=hg19.fa>
+##contig=<ID=chr14,length=107349540,assembly=hg19.fa>
+##contig=<ID=chr15,length=102531392,assembly=hg19.fa>
+##contig=<ID=chr16,length=90354753,assembly=hg19.fa>
+##contig=<ID=chr17,length=81195210,assembly=hg19.fa>
+##contig=<ID=chr18,length=78077248,assembly=hg19.fa>
+##contig=<ID=chr19,length=59128983,assembly=hg19.fa>
+##contig=<ID=chr20,length=63025520,assembly=hg19.fa>
+##contig=<ID=chr21,length=48129895,assembly=hg19.fa>
+##contig=<ID=chr22,length=51304566,assembly=hg19.fa>
+##contig=<ID=chrX,length=155270560,assembly=hg19.fa>
+##contig=<ID=chrY,length=59373566,assembly=hg19.fa>
+##contig=<ID=chrM,length=16569,assembly=hg19.fa>
+##contig=<ID=GL877870.2,length=66021,assembly=hg19.fa>
+##contig=<ID=GL877872.1,length=297485,assembly=hg19.fa>
+##contig=<ID=GL383535.1,length=429806,assembly=hg19.fa>
+##contig=<ID=JH159133.1,length=266316,assembly=hg19.fa>
+##contig=<ID=KB663606.1,length=305900,assembly=hg19.fa>
+##contig=<ID=KB021647.1,length=1058686,assembly=hg19.fa>
+##contig=<ID=KE332497.1,length=543325,assembly=hg19.fa>
+##contig=<ID=JH159131.1,length=393769,assembly=hg19.fa>
+##contig=<ID=GL949745.1,length=372609,assembly=hg19.fa>
+##contig=<ID=JH720447.1,length=454385,assembly=hg19.fa>
+##contig=<ID=GL582968.1,length=356330,assembly=hg19.fa>
+##contig=<ID=JH720446.1,length=97345,assembly=hg19.fa>
+##contig=<ID=JH591181.2,length=2281126,assembly=hg19.fa>
+##contig=<ID=JH720443.2,length=408430,assembly=hg19.fa>
+##contig=<ID=JH159134.2,length=3821770,assembly=hg19.fa>
+##contig=<ID=JH636052.4,length=7283150,assembly=hg19.fa>
+##contig=<ID=JH636053.3,length=1676126,assembly=hg19.fa>
+##contig=<ID=JH636054.1,length=758378,assembly=hg19.fa>
+##contig=<ID=JH636056.1,length=262912,assembly=hg19.fa>
+##contig=<ID=JH636058.1,length=716227,assembly=hg19.fa>
+##contig=<ID=JH636057.1,length=200195,assembly=hg19.fa>
+##contig=<ID=KE332505.1,length=579598,assembly=hg19.fa>
+##contig=<ID=JH720451.1,length=898979,assembly=hg19.fa>
+##contig=<ID=JH720452.1,length=522319,assembly=hg19.fa>
+##contig=<ID=JH720453.1,length=1461188,assembly=hg19.fa>
+##contig=<ID=JH720454.3,length=752267,assembly=hg19.fa>
+##contig=<ID=JH159136.1,length=200998,assembly=hg19.fa>
+##contig=<ID=JH806587.1,length=4110759,assembly=hg19.fa>
+##contig=<ID=JH806588.1,length=862483,assembly=hg19.fa>
+##contig=<ID=JH806589.1,length=270630,assembly=hg19.fa>
+##contig=<ID=JH806590.2,length=2418393,assembly=hg19.fa>
+##contig=<ID=JH806591.1,length=882083,assembly=hg19.fa>
+##contig=<ID=JH806592.1,length=835911,assembly=hg19.fa>
+##contig=<ID=JH806593.1,length=389631,assembly=hg19.fa>
+##contig=<ID=JH806594.1,length=390496,assembly=hg19.fa>
+##contig=<ID=JH806595.1,length=444074,assembly=hg19.fa>
+##contig=<ID=JH806596.1,length=413927,assembly=hg19.fa>
+##contig=<ID=JH806597.1,length=1045622,assembly=hg19.fa>
+##contig=<ID=JH720448.1,length=70483,assembly=hg19.fa>
+##contig=<ID=JH806598.1,length=899320,assembly=hg19.fa>
+##contig=<ID=JH806599.1,length=1214327,assembly=hg19.fa>
+##contig=<ID=JH806600.2,length=6530008,assembly=hg19.fa>
+##contig=<ID=JH806601.1,length=1389764,assembly=hg19.fa>
+##contig=<ID=JH806602.1,length=713266,assembly=hg19.fa>
+##contig=<ID=JH806573.1,length=24680,assembly=hg19.fa>
+##contig=<ID=JH806574.2,length=22982,assembly=hg19.fa>
+##contig=<ID=JH806575.1,length=47409,assembly=hg19.fa>
+##contig=<ID=JH806580.1,length=93149,assembly=hg19.fa>
+##contig=<ID=JH806583.1,length=167183,assembly=hg19.fa>
+##contig=<ID=JH806584.1,length=70876,assembly=hg19.fa>
+##contig=<ID=JH806585.1,length=73505,assembly=hg19.fa>
+##contig=<ID=JH806603.1,length=182949,assembly=hg19.fa>
+##contig=<ID=JH159150.3,length=3110903,assembly=hg19.fa>
+##contig=<ID=GL582969.1,length=251823,assembly=hg19.fa>
+##contig=<ID=JH806577.1,length=22394,assembly=hg19.fa>
+##contig=<ID=JH806578.1,length=169437,assembly=hg19.fa>
+##contig=<ID=JH806579.1,length=211307,assembly=hg19.fa>
+##contig=<ID=JH159137.1,length=191409,assembly=hg19.fa>
+##contig=<ID=KE332502.1,length=341712,assembly=hg19.fa>
+##contig=<ID=KB021645.1,length=1523386,assembly=hg19.fa>
+##contig=<ID=KB663607.2,length=334922,assembly=hg19.fa>
+##contig=<ID=KE332500.1,length=228602,assembly=hg19.fa>
+##contig=<ID=KE332496.1,length=503215,assembly=hg19.fa>
+##contig=<ID=GL383558.1,length=457041,assembly=hg19.fa>
+##contig=<ID=GL582976.1,length=412535,assembly=hg19.fa>
+##contig=<ID=GL383523.1,length=171362,assembly=hg19.fa>
+##contig=<ID=KE332498.1,length=149443,assembly=hg19.fa>
+##contig=<ID=GL949743.1,length=608579,assembly=hg19.fa>
+##contig=<ID=KE332506.1,length=307252,assembly=hg19.fa>
+##contig=<ID=GL383536.1,length=203777,assembly=hg19.fa>
+##contig=<ID=JH591184.1,length=462282,assembly=hg19.fa>
+##contig=<ID=JH636061.1,length=186059,assembly=hg19.fa>
+##contig=<ID=JH806576.1,length=273386,assembly=hg19.fa>
+##contig=<ID=GL383524.1,length=78793,assembly=hg19.fa>
+##contig=<ID=GL582973.1,length=321004,assembly=hg19.fa>
+##contig=<ID=JH159138.1,length=108875,assembly=hg19.fa>
+##contig=<ID=KB021648.1,length=469972,assembly=hg19.fa>
+##contig=<ID=JH159139.1,length=120441,assembly=hg19.fa>
+##contig=<ID=JH159140.1,length=546435,assembly=hg19.fa>
+##contig=<ID=JH591182.1,length=196262,assembly=hg19.fa>
+##contig=<ID=JH159132.1,length=100694,assembly=hg19.fa>
+##contig=<ID=JH720449.1,length=212298,assembly=hg19.fa>
+##contig=<ID=JH591183.1,length=177920,assembly=hg19.fa>
+##contig=<ID=JH720444.2,length=273128,assembly=hg19.fa>
+##contig=<ID=JH159141.2,length=240775,assembly=hg19.fa>
+##contig=<ID=KB663604.1,length=478993,assembly=hg19.fa>
+##contig=<ID=JH720455.1,length=65034,assembly=hg19.fa>
+##contig=<ID=KB021646.2,length=211416,assembly=hg19.fa>
+##contig=<ID=JH159142.2,length=326647,assembly=hg19.fa>
+##contig=<ID=JH159143.1,length=191402,assembly=hg19.fa>
+##contig=<ID=JH806582.2,length=342635,assembly=hg19.fa>
+##contig=<ID=JH159135.2,length=102251,assembly=hg19.fa>
+##contig=<ID=KE332499.1,length=274521,assembly=hg19.fa>
+##contig=<ID=GL877877.2,length=284527,assembly=hg19.fa>
+##contig=<ID=JH806586.1,length=43543,assembly=hg19.fa>
+##contig=<ID=GL582979.2,length=179899,assembly=hg19.fa>
+##contig=<ID=KB663605.1,length=155926,assembly=hg19.fa>
+##contig=<ID=GL582975.1,length=34662,assembly=hg19.fa>
+##contig=<ID=GL949744.1,length=276448,assembly=hg19.fa>
+##contig=<ID=GL383543.1,length=392792,assembly=hg19.fa>
+##contig=<ID=GL877871.1,length=389939,assembly=hg19.fa>
+##contig=<ID=GL582967.1,length=248177,assembly=hg19.fa>
+##contig=<ID=JH159149.1,length=245473,assembly=hg19.fa>
+##contig=<ID=GL582977.2,length=580393,assembly=hg19.fa>
+##contig=<ID=GL582970.1,length=354970,assembly=hg19.fa>
+##contig=<ID=GL383559.2,length=338640,assembly=hg19.fa>
+##contig=<ID=JH159144.1,length=388340,assembly=hg19.fa>
+##contig=<ID=JH591186.1,length=376223,assembly=hg19.fa>
+##contig=<ID=GL383560.1,length=534288,assembly=hg19.fa>
+##contig=<ID=GL339450.1,length=330164,assembly=hg19.fa>
+##contig=<ID=GL582971.1,length=1284284,assembly=hg19.fa>
+##contig=<ID=GL582974.1,length=163298,assembly=hg19.fa>
+##contig=<ID=JH806581.1,length=872115,assembly=hg19.fa>
+##contig=<ID=JH636060.1,length=437946,assembly=hg19.fa>
+##contig=<ID=JH591185.1,length=167437,assembly=hg19.fa>
+##contig=<ID=JH159145.1,length=194862,assembly=hg19.fa>
+##contig=<ID=GL877873.1,length=168465,assembly=hg19.fa>
+##contig=<ID=KB663608.1,length=283551,assembly=hg19.fa>
+##contig=<ID=GL582972.1,length=327774,assembly=hg19.fa>
+##contig=<ID=KB663603.1,length=599580,assembly=hg19.fa>
+##contig=<ID=KE332495.1,length=263861,assembly=hg19.fa>
+##contig=<ID=JH636059.1,length=295379,assembly=hg19.fa>
+##contig=<ID=JH720445.1,length=170033,assembly=hg19.fa>
+##contig=<ID=KE332501.1,length=1020827,assembly=hg19.fa>
+##contig=<ID=GL383561.2,length=644425,assembly=hg19.fa>
+##contig=<ID=GL949741.1,length=151551,assembly=hg19.fa>
+##contig=<ID=GL383562.1,length=45551,assembly=hg19.fa>
+##contig=<ID=GL383525.1,length=65063,assembly=hg19.fa>
+##contig=<ID=GL383544.1,length=128378,assembly=hg19.fa>
+##contig=<ID=GL383548.1,length=165247,assembly=hg19.fa>
+##contig=<ID=GL383537.1,length=62435,assembly=hg19.fa>
+##contig=<ID=GL383538.1,length=49281,assembly=hg19.fa>
+##contig=<ID=GL383516.1,length=49316,assembly=hg19.fa>
+##contig=<ID=GL383517.1,length=49352,assembly=hg19.fa>
+##contig=<ID=GL383545.1,length=179254,assembly=hg19.fa>
+##contig=<ID=GL383546.1,length=309802,assembly=hg19.fa>
+##contig=<ID=GL383547.1,length=154407,assembly=hg19.fa>
+##contig=<ID=GL877875.1,length=167313,assembly=hg19.fa>
+##contig=<ID=GL383549.1,length=120804,assembly=hg19.fa>
+##contig=<ID=GL383550.1,length=169178,assembly=hg19.fa>
+##contig=<ID=GL383551.1,length=184319,assembly=hg19.fa>
+##contig=<ID=GL877876.1,length=408271,assembly=hg19.fa>
+##contig=<ID=GL383552.1,length=138655,assembly=hg19.fa>
+##contig=<ID=GL383553.2,length=152874,assembly=hg19.fa>
+##contig=<ID=GL383554.1,length=296527,assembly=hg19.fa>
+##contig=<ID=GL383555.1,length=388773,assembly=hg19.fa>
+##contig=<ID=GL383556.1,length=192462,assembly=hg19.fa>
+##contig=<ID=GL383557.1,length=89672,assembly=hg19.fa>
+##contig=<ID=GL000258.1,length=1680828,assembly=hg19.fa>
+##contig=<ID=GL383563.2,length=270261,assembly=hg19.fa>
+##contig=<ID=GL383564.1,length=133151,assembly=hg19.fa>
+##contig=<ID=GL383565.1,length=223995,assembly=hg19.fa>
+##contig=<ID=GL383566.1,length=90219,assembly=hg19.fa>
+##contig=<ID=JH159146.1,length=278131,assembly=hg19.fa>
+##contig=<ID=JH159147.1,length=70345,assembly=hg19.fa>
+##contig=<ID=JH159148.1,length=88070,assembly=hg19.fa>
+##contig=<ID=GL383567.1,length=289831,assembly=hg19.fa>
+##contig=<ID=GL383568.1,length=104552,assembly=hg19.fa>
+##contig=<ID=GL383569.1,length=167950,assembly=hg19.fa>
+##contig=<ID=GL383570.1,length=164789,assembly=hg19.fa>
+##contig=<ID=GL383571.1,length=198278,assembly=hg19.fa>
+##contig=<ID=GL383572.1,length=159547,assembly=hg19.fa>
+##contig=<ID=GL949746.1,length=987716,assembly=hg19.fa>
+##contig=<ID=GL949747.1,length=729519,assembly=hg19.fa>
+##contig=<ID=GL949748.1,length=1064303,assembly=hg19.fa>
+##contig=<ID=GL949749.1,length=1091840,assembly=hg19.fa>
+##contig=<ID=GL949750.1,length=1066389,assembly=hg19.fa>
+##contig=<ID=GL949751.1,length=1002682,assembly=hg19.fa>
+##contig=<ID=GL949752.1,length=987100,assembly=hg19.fa>
+##contig=<ID=GL949753.1,length=796478,assembly=hg19.fa>
+##contig=<ID=GL383573.1,length=385657,assembly=hg19.fa>
+##contig=<ID=GL383574.1,length=155864,assembly=hg19.fa>
+##contig=<ID=GL383575.2,length=170222,assembly=hg19.fa>
+##contig=<ID=GL383576.1,length=188024,assembly=hg19.fa>
+##contig=<ID=GL383518.1,length=182439,assembly=hg19.fa>
+##contig=<ID=GL383519.1,length=110268,assembly=hg19.fa>
+##contig=<ID=GL383520.1,length=366579,assembly=hg19.fa>
+##contig=<ID=GL383577.1,length=128385,assembly=hg19.fa>
+##contig=<ID=GL383578.1,length=63917,assembly=hg19.fa>
+##contig=<ID=GL383579.1,length=201198,assembly=hg19.fa>
+##contig=<ID=GL383580.1,length=74652,assembly=hg19.fa>
+##contig=<ID=GL383581.1,length=116690,assembly=hg19.fa>
+##contig=<ID=GL383582.2,length=162811,assembly=hg19.fa>
+##contig=<ID=GL383583.1,length=96924,assembly=hg19.fa>
+##contig=<ID=KB663609.1,length=74013,assembly=hg19.fa>
+##contig=<ID=GL383521.1,length=143390,assembly=hg19.fa>
+##contig=<ID=GL383522.1,length=123821,assembly=hg19.fa>
+##contig=<ID=GL582966.2,length=96131,assembly=hg19.fa>
+##contig=<ID=JH636055.1,length=173151,assembly=hg19.fa>
+##contig=<ID=GL383526.1,length=180671,assembly=hg19.fa>
+##contig=<ID=GL000257.1,length=590426,assembly=hg19.fa>
+##contig=<ID=GL383527.1,length=164536,assembly=hg19.fa>
+##contig=<ID=GL383528.1,length=376187,assembly=hg19.fa>
+##contig=<ID=GL383529.1,length=121345,assembly=hg19.fa>
+##contig=<ID=GL339449.2,length=1612928,assembly=hg19.fa>
+##contig=<ID=GL383530.1,length=101241,assembly=hg19.fa>
+##contig=<ID=GL383531.1,length=173459,assembly=hg19.fa>
+##contig=<ID=GL383532.1,length=82728,assembly=hg19.fa>
+##contig=<ID=GL949742.1,length=226852,assembly=hg19.fa>
+##contig=<ID=GL383533.1,length=124736,assembly=hg19.fa>
+##contig=<ID=KB021644.1,length=187824,assembly=hg19.fa>
+##contig=<ID=GL000250.1,length=4622290,assembly=hg19.fa>
+##contig=<ID=GL000251.1,length=4795371,assembly=hg19.fa>
+##contig=<ID=GL000252.1,length=4610396,assembly=hg19.fa>
+##contig=<ID=GL000253.1,length=4683263,assembly=hg19.fa>
+##contig=<ID=GL000254.1,length=4833398,assembly=hg19.fa>
+##contig=<ID=GL000255.1,length=4611984,assembly=hg19.fa>
+##contig=<ID=GL000256.1,length=4928567,assembly=hg19.fa>
+##contig=<ID=GL383534.2,length=119183,assembly=hg19.fa>
+##contig=<ID=GL383539.1,length=162988,assembly=hg19.fa>
+##contig=<ID=GL383540.1,length=71551,assembly=hg19.fa>
+##contig=<ID=GL383541.1,length=171286,assembly=hg19.fa>
+##contig=<ID=GL383542.1,length=60032,assembly=hg19.fa>
+##contig=<ID=GL000191.1,length=106433,assembly=hg19.fa>
+##contig=<ID=GL000192.1,length=547496,assembly=hg19.fa>
+##contig=<ID=GL000193.1,length=189789,assembly=hg19.fa>
+##contig=<ID=GL000194.1,length=191469,assembly=hg19.fa>
+##contig=<ID=GL000195.1,length=182896,assembly=hg19.fa>
+##contig=<ID=GL000196.1,length=38914,assembly=hg19.fa>
+##contig=<ID=GL000197.1,length=37175,assembly=hg19.fa>
+##contig=<ID=GL000198.1,length=90085,assembly=hg19.fa>
+##contig=<ID=GL000199.1,length=169874,assembly=hg19.fa>
+##contig=<ID=GL000200.1,length=187035,assembly=hg19.fa>
+##contig=<ID=GL000201.1,length=36148,assembly=hg19.fa>
+##contig=<ID=GL000202.1,length=40103,assembly=hg19.fa>
+##contig=<ID=GL000203.1,length=37498,assembly=hg19.fa>
+##contig=<ID=GL000204.1,length=81310,assembly=hg19.fa>
+##contig=<ID=GL000205.1,length=174588,assembly=hg19.fa>
+##contig=<ID=GL000206.1,length=41001,assembly=hg19.fa>
+##contig=<ID=GL000207.1,length=4262,assembly=hg19.fa>
+##contig=<ID=GL000208.1,length=92689,assembly=hg19.fa>
+##contig=<ID=GL000209.1,length=159169,assembly=hg19.fa>
+##contig=<ID=GL000210.1,length=27682,assembly=hg19.fa>
+##contig=<ID=GL000211.1,length=166566,assembly=hg19.fa>
+##contig=<ID=GL000212.1,length=186858,assembly=hg19.fa>
+##contig=<ID=GL000213.1,length=164239,assembly=hg19.fa>
+##contig=<ID=GL000214.1,length=137718,assembly=hg19.fa>
+##contig=<ID=GL000215.1,length=172545,assembly=hg19.fa>
+##contig=<ID=GL000216.1,length=172294,assembly=hg19.fa>
+##contig=<ID=GL000217.1,length=172149,assembly=hg19.fa>
+##contig=<ID=GL000218.1,length=161147,assembly=hg19.fa>
+##contig=<ID=GL000219.1,length=179198,assembly=hg19.fa>
+##contig=<ID=GL000220.1,length=161802,assembly=hg19.fa>
+##contig=<ID=GL000221.1,length=155397,assembly=hg19.fa>
+##contig=<ID=GL000222.1,length=186861,assembly=hg19.fa>
+##contig=<ID=GL000223.1,length=180455,assembly=hg19.fa>
+##contig=<ID=GL000224.1,length=179693,assembly=hg19.fa>
+##contig=<ID=GL000225.1,length=211173,assembly=hg19.fa>
+##contig=<ID=GL000226.1,length=15008,assembly=hg19.fa>
+##contig=<ID=GL000227.1,length=128374,assembly=hg19.fa>
+##contig=<ID=GL000228.1,length=129120,assembly=hg19.fa>
+##contig=<ID=GL000229.1,length=19913,assembly=hg19.fa>
+##contig=<ID=GL000230.1,length=43691,assembly=hg19.fa>
+##contig=<ID=GL000231.1,length=27386,assembly=hg19.fa>
+##contig=<ID=GL000232.1,length=40652,assembly=hg19.fa>
+##contig=<ID=GL000233.1,length=45941,assembly=hg19.fa>
+##contig=<ID=GL000234.1,length=40531,assembly=hg19.fa>
+##contig=<ID=GL000235.1,length=34474,assembly=hg19.fa>
+##contig=<ID=GL000236.1,length=41934,assembly=hg19.fa>
+##contig=<ID=GL000237.1,length=45867,assembly=hg19.fa>
+##contig=<ID=GL000238.1,length=39939,assembly=hg19.fa>
+##contig=<ID=GL000239.1,length=33824,assembly=hg19.fa>
+##contig=<ID=GL000240.1,length=41933,assembly=hg19.fa>
+##contig=<ID=GL000241.1,length=42152,assembly=hg19.fa>
+##contig=<ID=GL000242.1,length=43523,assembly=hg19.fa>
+##contig=<ID=GL000243.1,length=43341,assembly=hg19.fa>
+##contig=<ID=GL000244.1,length=39929,assembly=hg19.fa>
+##contig=<ID=GL000245.1,length=36651,assembly=hg19.fa>
+##contig=<ID=GL000246.1,length=38154,assembly=hg19.fa>
+##contig=<ID=GL000247.1,length=36422,assembly=hg19.fa>
+##contig=<ID=GL000248.1,length=39786,assembly=hg19.fa>
+##contig=<ID=GL000249.1,length=38502,assembly=hg19.fa>
+##reference=file:///mnt/lustre/users/bglanzmann/hg19_processing/hg19.fa
+##source=HaplotypeCaller
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	20
+chr2	47641559	.	TA	T	441.73	PASS	AC=2;AF=1.00;AN=2;DP=29;ExcessHet=3.0103;FS=0.000;MLEAC=1;MLEAF=0.500;MQ=60.00;QD=16.36;SOR=1.179	GT:AD:DP:GQ:PL	1/1:0,27:27:76:425,76,0
+chr5	131915673	.	G	A	386.77	PASS	AC=1;AF=0.500;AN=2;BaseQRankSum=0.675;ClippingRankSum=0.000;DP=41;ExcessHet=3.0103;FS=1.298;MLEAC=1;MLEAF=0.500;MQ=60.00;MQRankSum=0.000;QD=9.43;ReadPosRankSum=0.246;SOR=0.404	GT:AD:DP:GQ:PL	0/1:27,14:41:99:415,0,900
+chr10	96702047	.	C	T	395.77	PASS	AC=1;AF=0.500;AN=2;BaseQRankSum=-0.183;ClippingRankSum=0.000;DP=38;ExcessHet=3.0103;FS=16.948;MLEAC=1;MLEAF=0.500;MQ=59.65;MQRankSum=-1.402;QD=10.41;ReadPosRankSum=1.262;SOR=2.399	GT:AD:DP:GQ:PL	0/1:23,15:38:99:424,0,708
+chr11	46747692	.	C	T	422.77	PASS	AC=1;AF=0.500;AN=2;BaseQRankSum=-0.042;ClippingRankSum=0.000;DP=30;ExcessHet=3.0103;FS=1.455;MLEAC=1;MLEAF=0.500;MQ=60.00;MQRankSum=0.000;QD=14.09;ReadPosRankSum=1.875;SOR=0.774	GT:AD:DP:GQ:PL	0/1:14,16:30:99:451,0,372
+chr22	30024616	.	CT	C	280.73	PASS	AC=2;AF=1.00;AN=2;DP=19;ExcessHet=3.0103;FS=0.000;MLEAC=1;MLEAF=0.500;MQ=60.00;QD=17.55;SOR=2.303	GT:AD:DP:GQ:PL	1/1:0,16:16:45:264,45,0
