@@ -6,6 +6,8 @@ nextflow.enable.dsl=2
 params.output_dir = "results"
 params.humandb_dir = "/mnt/d/annovar/humandb"
 params.buildver = "hg19"
+params.annovar_params = " -protocol avsnp147,dbnsfp42a,gnomad_exome,1000g2015aug_all,gerp++gt2,fathmm,dann,eigen,caddgt10 \
+    -operation f,f,f,f,f,f,f,f,f"
 
 vcfFile = file(params.vcf)
 if( !vcfFile.exists() ) {
@@ -29,7 +31,6 @@ process annotateGene {
     output:
     path "${sampleName}.${params.buildver}_multianno.vcf"
 
-    publishDir params.output_dir, mode: 'copy', pattern: '{*.vcf}'
 
     shell:
     """
@@ -64,7 +65,28 @@ process filterByGene {
     """
 }
 
+process annotateAll {
+    /*
+     Function to annotate variants using a variety of user-supplied Annovar
+     databases.
+    */
+    input:
+    path filtered_vcf
+
+    output:
+    path "${sampleName}.${params.buildver}_multianno.vcf"
+    
+    publishDir params.output_dir, mode: 'copy', pattern: '{*_multianno.vcf}'
+
+    shell:
+    """
+    table_annovar.pl ${filtered_vcf} ${params.humandb_dir} -buildver ${params.buildver} \
+        -out ${sampleName} -remove ${params.annovar_params} -nastring . -vcfinput 
+    """
+}
+
 workflow {
     annotateGene(vcfFile)
     filterByGene(annotateGene.out)
+    annotateAll(filterByGene.out)
 }
