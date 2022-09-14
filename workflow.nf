@@ -5,10 +5,10 @@ nextflow.enable.dsl=2
 
 params.output_dir = "results"
 params.humandb_dir = "/mnt/d/annovar/humandb"
+params.vpot_dir = "~/bin/VPOT-nf"
 params.buildver = "hg19"
-params.annovar_params = " -protocol avsnp147,dbnsfp42a,gnomad_exome,1000g2015aug_all,gerp++gt2,fathmm,dann,eigen,caddgt10 \
-    -operation f,f,f,f,f,f,f,f,f"
-
+params.annovar_params = " -protocol avsnp147,dbnsfp42a,gnomad_exome,1000g2015aug_all,gerp++gt2,fathmm,dann,eigen,caddgt10\
+                          -operation f,f,f,f,f,f,f,f,f"
 vcfFile = file(params.vcf)
 if( !vcfFile.exists() ) {
     exit 1, "The specified VCF file does not exist: ${params.vcf}"
@@ -36,7 +36,7 @@ process annotateGene {
     """
     table_annovar.pl ${vcf} ${params.humandb_dir} -buildver ${params.buildver} \
     -out ${sampleName} -remove -protocol refgene -operation g \
-    -nastring . --convertarg "--filter 'pass'" -vcfinput 
+    -nastring . --convertarg "--filter 'pass'" -vcfinput
     """
 }
 
@@ -75,14 +75,30 @@ process annotateAll {
 
     output:
     path "${sampleName}.${params.buildver}_multianno.vcf"
-    
+
     publishDir params.output_dir, mode: 'copy', pattern: '{*_multianno.vcf}'
 
     shell:
     """
     table_annovar.pl ${filtered_vcf} ${params.humandb_dir} -buildver ${params.buildver} \
-        -out ${sampleName} -remove ${params.annovar_params} -nastring . -vcfinput 
+        -out ${sampleName} -remove ${params.annovar_params} -nastring . -vcfinput
     """
+}
+
+process makeSampleList {
+    /*
+
+    */
+    input:
+    path vcf
+
+    output:
+    path "vpot_input.txt"
+
+    shell:
+    '''
+    echo "!{vcf}	$(grep "#CHROM" !{vcf} | awk '{print $NF}')" > vpot_input.txt
+    '''
 }
 
 workflow {
