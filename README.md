@@ -31,9 +31,25 @@ $exec "$SHELL" #restart shell
 $which table_annovar.pl  #check that Annovar's executable is in $PATH
 /home/duncan/bin/annovar/table_annovar.pl
 ```
-## Input files
+## Required inputs
+| Argument      | Description                                                                   |
+|:--------------|:------------------------------------------------------------------------------|
+| --vcf         | Unannotated VCF file to be analysed                                           |
+| --genepanel   | CSV file with the list of genes and associated panels                         |
 
-## Parameters
+## Optional inputs
+| Argument         | Description                                                                                                  | Default                                                                                                                    |
+|:-----------------|:-------------------------------------------------------------------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------------|
+| --cancer_type    | Name of the cancer panel of interest: must be a column in the gene panel file                                | "BreastCancer"                                                                                                             |
+| --output_dir     | Directory in which to output results                                                                         | "results"                                                                                                                  |
+| --humandb_dir    | Directory in which annovar databases are stored                                                              | "~/bin/annovar/humandb"                                                                                                    |
+| --vpot_dir       | Directory in which VPOT-nf is installed                                                                      | "~/bin/VPOT-nf"                                                                                                            |
+| --buildver       | Reference genome used for alignment                                                                          | "hg19"                                                                                                                     |
+| --annovar_params | Argument to be passed to ANNOVAR which specifies which annotation databases to use                           | " -protocol avsnp147,1000g2015aug_all,clinvar_20220320,dbnsfp42a,gnomad_exome,gerp++gt2,caddgt10 -operation f,f,f,f,f,f,f" |
+| --vpot_params    | VPOT parameter file location                                                                                 | "${params.vpot_dir}/default_params/default_ppf.txt"                                                                        |
+| --column_file    | Optional CSV file which specifies which headings to use in the excel file and their order. Ignored if "None" | "None"                                                                                                                     |
+
+
 
 ## Usage
 
