@@ -7,8 +7,10 @@ params.output_dir = "results"
 params.humandb_dir = "/mnt/d/annovar/humandb"
 params.vpot_dir = "~/bin/VPOT-nf"
 params.buildver = "hg19"
-params.annovar_params = " -protocol avsnp147,dbnsfp42a,gnomad_exome,1000g2015aug_all,gerp++gt2,fathmm,dann,eigen,caddgt10\
-                          -operation f,f,f,f,f,f,f,f,f"
+params.annovar_params = " -protocol avsnp147,clinvar_20220320,dbnsfp42a,gnomad_exome,1000g2015aug_all,gerp++gt2,fathmm,dann,eigen,caddgt10\
+    -operation f,f,f,f,f,f,f,f,f,f"
+params.vpot_params = "${params.vpot_dir}/default_params/default_ppf.txt"
+params.cancer_type = "BreastCancer"
 vcfFile = file(params.vcf)
 if( !vcfFile.exists() ) {
     exit 1, "The specified VCF file does not exist: ${params.vcf}"
@@ -17,7 +19,7 @@ sampleName = vcfFile.baseName
 
 genePanelFile = file(params.genepanel)
 if( !genePanelFile.exists() ) {
-    exit 1, "The specified gene panel file does not exist: ${params.genepanel}"
+    exit 1, "The specified gene panel file does not exist: $params.genepanel"
 }
 
 process annotateGene {
@@ -87,7 +89,10 @@ process annotateAll {
 
 process makeSampleList {
     /*
-
+     VPOT requires the input data to be listed in a text file to support batch samples.
+     The first column must be the path of the VCF and the second column is the
+    name of the sample header in the VCF file. This function makes the sample
+    list file for our annotated VCF.
     */
     input:
     path vcf
@@ -95,14 +100,57 @@ process makeSampleList {
     output:
     path "vpot_input.txt"
 
+    publishDir params.output_dir, mode: 'copy', pattern: 'vpot_input.txt'
+
     shell:
     '''
-    echo "!{vcf}	$(grep "#CHROM" !{vcf} | awk '{print $NF}')" > vpot_input.txt
+    echo "!{launchDir}/!{params.output_dir}/!{vcf}	$(grep "#CHROM" !{vcf} | awk '{print $NF}')" > vpot_input.txt
     '''
+}
+
+process vpotPrioritise {
+    /*
+     Prioritise the annotated VCF using VPOT.
+    */
+    input:
+    path vpot_input
+
+    output:
+    path "${sampleName}_final_output_file.txt"
+
+    publishDir params.output_dir, mode: 'copy', pattern: '*_final_output_file.txt'
+
+    shell:
+    """
+    python ${params.vpot_dir}/VPOT.py priority ${sampleName}_ \
+        $vpot_input $params.vpot_params
+    """
+}
+
+process vpotGenePanel {
+    /*
+     Output the prioritisation results as a spreadsheet using VPOT-nf's gene
+    panel function.
+    */
+    input:
+    path vpol
+
+    output:
+    path "${params.output_dir}/${sampleName}_output_genepanels.xlsx"
+
+    publishDir params.output_dir, mode: 'copy', pattern: '*_final_output_file.txt'
+
+    shell:
+    """
+    python ${params.vpot_dir}/VPOT.py genepanelf "${launchDir}/${params.output_dir}/${sampleName}_" $vpol $genePanelFile $params.cancer_type
+    """
 }
 
 workflow {
     annotateGene(vcfFile)
     filterByGene(annotateGene.out)
     annotateAll(filterByGene.out)
+    makeSampleList(annotateAll.out)
+    vpotPrioritise(makeSampleList.out)
+    vpotGenePanel(vpotPrioritise.out)
 }
