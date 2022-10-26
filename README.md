@@ -49,7 +49,8 @@ annotate_variation.pl -buildver hg19 -downdb -webfrom annovar refGene ~/bin/anno
 | --panelset   | CSV file with the list of genes and associated panels                         |
 
 ## Optional inputs
-| Argument             | Description                                                                                                  | Default                                             |
+| Argument           | Description                                                                                                  | Default                                             |
+|:-------------------|:-------------------------------------------------------------------------------------------------------------|-----------------------------------------------------|
 | --output_dir         | Directory in which to output results                                                                         | "results"                                           |
 | --humandb_dir        | Directory in which annovar databases are stored                                                              | "~/bin/annovar/humandb"                             |
 | --vpot_dir           | Directory in which VPOT-nf is installed                                                                      | "~/bin/VPOT-nf"                                     |
