@@ -4,13 +4,14 @@ nextflow.enable.dsl=2
 /* Script to filter and prioritise variants from WGS/WES data */
 
 params.output_dir = "results"
-params.humandb_dir = "/mnt/d/annovar/humandb"
+params.humandb_dir = "~/bin/annovar/humandb"
 params.vpot_dir = "~/bin/VPOT-nf"
 params.buildver = "hg19"
 params.annovar_params = " -protocol avsnp147,clinvar_20220320,dbnsfp42a,gnomad_exome,1000g2015aug_all,gerp++gt2,fathmm,dann,eigen,caddgt10\
     -operation f,f,f,f,f,f,f,f,f,f"
 params.vpot_params = "${params.vpot_dir}/default_params/default_ppf.txt"
 params.cancer_type = "BreastCancer"
+params.intermediate_files = false
 vcfFile = file(params.vcf)
 if( !vcfFile.exists() ) {
     exit 1, "The specified VCF file does not exist: ${params.vcf}"
@@ -56,7 +57,9 @@ process filterByGene {
     output:
     path "${sampleName}_genefiltered.vcf"
 
-    publishDir params.output_dir, mode: 'copy', pattern: '{*_genefiltered.vcf}'
+    if (params.intermediate_files == true) {
+        publishDir params.output_dir, mode: 'copy', pattern: '{*_genefiltered.vcf}'
+    }
 
     shell:
     """
@@ -100,7 +103,9 @@ process makeSampleList {
     output:
     path "vpot_input.txt"
 
-    publishDir params.output_dir, mode: 'copy', pattern: 'vpot_input.txt'
+    if (params.intermediate_files == true) {
+        publishDir params.output_dir, mode: 'copy', pattern: 'vpot_input.txt'
+    }
 
     shell:
     '''
@@ -118,7 +123,9 @@ process vpotPrioritise {
     output:
     path "${sampleName}_final_output_file.txt"
 
-    publishDir params.output_dir, mode: 'copy', pattern: '*_final_output_file.txt'
+    if (params.intermediate_files == true) {
+        publishDir params.output_dir, mode: 'copy', pattern: '*_final_output_file.txt'
+    }
 
     shell:
     """
@@ -136,13 +143,13 @@ process vpotGenePanel {
     path vpol
 
     output:
-    path "${params.output_dir}/${sampleName}_output_genepanels.xlsx"
+    path "${sampleName}_output_genepanels.xlsx"
 
-    publishDir params.output_dir, mode: 'copy', pattern: '*_final_output_file.txt'
+    publishDir params.output_dir, mode: 'copy', pattern: '*_output_genepanels.xlsx'
 
     shell:
     """
-    python ${params.vpot_dir}/VPOT.py genepanelf "${launchDir}/${params.output_dir}/${sampleName}_" $vpol $genePanelFile $params.cancer_type
+    python ${params.vpot_dir}/VPOT.py genepanelf "${sampleName}_" $vpol $genePanelFile $params.cancer_type
     """
 }
 
