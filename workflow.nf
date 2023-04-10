@@ -7,10 +7,12 @@ params.output_dir = "results"
 params.humandb_dir = "/mnt/d/annovar/humandb"
 params.vpot_dir = "~/bin/VPOT-nf"
 params.buildver = "hg19"
-params.annovar_params = " -protocol avsnp147,clinvar_20220320,dbnsfp42a,gnomad_exome,1000g2015aug_all,gerp++gt2,fathmm,dann,eigen,caddgt10\
-    -operation f,f,f,f,f,f,f,f,f,f"
+params.annovar_params = " -protocol avsnp147,1000g2015aug_all,clinvar_20220320,dbnsfp42a,gnomad_exome,gerp++gt2,caddgt10\
+    -operation f,f,f,f,f,f,f"
 params.vpot_params = "${params.vpot_dir}/default_params/default_ppf.txt"
 params.cancer_type = "BreastCancer"
+params.column_file = "None"
+
 vcfFile = file(params.vcf)
 if( !vcfFile.exists() ) {
     exit 1, "The specified VCF file does not exist: ${params.vcf}"
@@ -22,7 +24,33 @@ if( !genePanelFile.exists() ) {
     exit 1, "The specified gene panel file does not exist: $params.genepanel"
 }
 
+if (params.column_file != "None") {
+    columnFile = file(params.column_file)
+} else {
+    columnFile = "None"
+}
+
+annotatedVcf = file("${params.output_dir}/${sampleName}.${params.buildver}_multianno.vcf")
+
+process splitVariants {
+    debug true
+    /*
+     Split variants with multiple alleles into separate lines.
+    */
+    input:
+    path vcf
+
+    output:
+    path "${sampleName}_split.vcf"
+
+    shell:
+    """
+    bcftools norm -m-both -o ${sampleName}_split.vcf ${vcf}
+    """
+}
+
 process annotateGene {
+    debug true
     /*
      Function to annotate variants using refGene, filtering out variants
      which did not pass quality control.
@@ -32,7 +60,6 @@ process annotateGene {
 
     output:
     path "${sampleName}.${params.buildver}_multianno.vcf"
-
 
     shell:
     """
@@ -56,7 +83,7 @@ process filterByGene {
     output:
     path "${sampleName}_genefiltered.vcf"
 
-    publishDir params.output_dir, mode: 'copy', pattern: '{*_genefiltered.vcf}'
+//  publishDir params.output_dir, mode: 'copy', pattern: '{*_genefiltered.vcf}'
 
     shell:
     """
@@ -68,6 +95,7 @@ process filterByGene {
 }
 
 process annotateAll {
+    debug true
     /*
      Function to annotate variants using a variety of user-supplied Annovar
      databases.
@@ -87,33 +115,13 @@ process annotateAll {
     """
 }
 
-process makeSampleList {
-    /*
-     VPOT requires the input data to be listed in a text file to support batch samples.
-     The first column must be the path of the VCF and the second column is the
-    name of the sample header in the VCF file. This function makes the sample
-    list file for our annotated VCF.
-    */
-    input:
-    path vcf
-
-    output:
-    path "vpot_input.txt"
-
-    publishDir params.output_dir, mode: 'copy', pattern: 'vpot_input.txt'
-
-    shell:
-    '''
-    echo "!{launchDir}/!{params.output_dir}/!{vcf}	$(grep "#CHROM" !{vcf} | awk '{print $NF}')" > vpot_input.txt
-    '''
-}
-
 process vpotPrioritise {
+    debug true
     /*
      Prioritise the annotated VCF using VPOT.
     */
     input:
-    path vpot_input
+    path vcf
 
     output:
     path "${sampleName}_final_output_file.txt"
@@ -121,13 +129,15 @@ process vpotPrioritise {
     publishDir params.output_dir, mode: 'copy', pattern: '*_final_output_file.txt'
 
     shell:
-    """
-    python ${params.vpot_dir}/VPOT.py priority ${sampleName}_ \
-        $vpot_input $params.vpot_params
-    """
+    '''
+    echo "!{vcf}	$(grep "#CHROM" !{vcf} | awk '{print $NF}')" > vpot_input.txt
+    python !{params.vpot_dir}/VPOT.py priority !{sampleName}_ \
+        vpot_input.txt !{params.vpot_params}
+    '''
 }
 
 process vpotGenePanel {
+    debug true
     /*
      Output the prioritisation results as a spreadsheet using VPOT-nf's gene
     panel function.
@@ -136,21 +146,26 @@ process vpotGenePanel {
     path vpol
 
     output:
-    path "${params.output_dir}/${sampleName}_output_genepanels.xlsx"
+    path "${sampleName}_output_genepanels.xlsx"
 
-    publishDir params.output_dir, mode: 'copy', pattern: '*_final_output_file.txt'
+    publishDir params.output_dir, mode: 'copy', pattern: "${sampleName}_output_genepanels.xlsx"
 
     shell:
     """
-    python ${params.vpot_dir}/VPOT.py genepanelf "${launchDir}/${params.output_dir}/${sampleName}_" $vpol $genePanelFile $params.cancer_type
+    python ${params.vpot_dir}/VPOT.py genepanelf "${sampleName}_" $vpol $genePanelFile $params.cancer_type $columnFile
     """
 }
 
 workflow {
-    annotateGene(vcfFile)
-    filterByGene(annotateGene.out)
-    annotateAll(filterByGene.out)
-    makeSampleList(annotateAll.out)
-    vpotPrioritise(makeSampleList.out)
+    if( annotatedVcf.exists() ) {
+        println "Already annotated VCF!"
+        vpotPrioritise(annotatedVcf)
+    } else {
+        splitVariants(vcfFile)
+        annotateGene(splitVariants.out)
+        filterByGene(annotateGene.out)
+        annotateAll(filterByGene.out)
+        vpotPrioritise(annotateAll.out)
+    }
     vpotGenePanel(vpotPrioritise.out)
 }
