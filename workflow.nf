@@ -3,15 +3,7 @@ nextflow.enable.dsl=2
 
 /* Script to filter and prioritise variants from WGS/WES data */
 
-params.output_dir = "results"
-params.humandb_dir = "/mnt/d/annovar/humandb"
-params.vpot_dir = "~/bin/VPOT-nf"
-params.buildver = "hg19"
-params.annovar_params = " -protocol avsnp147,1000g2015aug_all,clinvar_20220320,dbnsfp42a,gnomad_exome,gerp++gt2,caddgt10\
-    -operation f,f,f,f,f,f,f"
-params.vpot_params = "${params.vpot_dir}/default_params/default_ppf.txt"
-params.cancer_type = "BreastCancer"
-params.column_file = "None"
+params.vpot_params_abs= file(params.vpot_params).toAbsolutePath().toString()
 
 vcfFile = file(params.vcf)
 if( !vcfFile.exists() ) {
@@ -63,7 +55,7 @@ process annotateGene {
 
     shell:
     """
-    table_annovar.pl ${vcf} ${params.humandb_dir} -buildver ${params.buildver} \
+    ${params.annovar_dir}/table_annovar.pl ${vcf} ${params.humandb_dir} -buildver ${params.buildver} \
     -out ${sampleName} -remove -protocol refgene -operation g \
     -nastring . --convertarg "--filter 'pass'" -vcfinput
     """
@@ -110,7 +102,7 @@ process annotateAll {
 
     shell:
     """
-    table_annovar.pl ${filtered_vcf} ${params.humandb_dir} -buildver ${params.buildver} \
+    ${params.annovar_dir}/table_annovar.pl ${filtered_vcf} ${params.humandb_dir} -buildver ${params.buildver} \
         -out ${sampleName} -remove ${params.annovar_params} -nastring . -vcfinput
     """
 }
@@ -132,7 +124,7 @@ process vpotPrioritise {
     '''
     echo "!{vcf}	$(grep "#CHROM" !{vcf} | awk '{print $NF}')" > vpot_input.txt
     python !{params.vpot_dir}/VPOT.py priority !{sampleName}_ \
-        vpot_input.txt !{params.vpot_params}
+        vpot_input.txt !{params.vpot_params_abs}
     '''
 }
 

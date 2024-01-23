@@ -1,0 +1,33 @@
+PF	Population_filter	Value
+#PF	gnomad_exome	0.05	LE
+#PF	1000g2015aug_all	0.05	LE
+PD	Predictors	Type	Low	Value	Mid	Value	High	Value
+PD	1000g2015aug_all	N	0.01	0	0.05	-5	0.1	-10	0.1	-30
+PD	gnomad_exome_all	N	0.01	0	0.05	-5	0.1	-10	0.1	-30
+PD	CADDgt10_Phred	N	10	0	15	10	20	20	20	40
+PD	FATHMM_coding	N	0.8	0	0.9	10	0.9	20
+PD	FATHMM_noncoding	N	0.8	0	0.9	10	0.9	20
+VT	Variant_annotation	Exception_variant_types	Value
+VT	CLNSIG	Pathogenic/Likely_pathogenic	100
+VT	CLNSIG	Pathogenic	100
+VT	CLNSIG	Likely_pathogenic	80
+VT	CLNSIG	drug_response	80
+VT	CLNSIG	Conflicting_interpretations_of_pathogenicity	40
+VT	CLNSIG	Uncertain_significance	20
+VT	CLNSIG	Likely_benign	-80
+VT	CLNSIG	Benign	-100
+VT	CLNSIG	Benign/Likely_benign	-100
+VT	ExonicFunc.refGene	splicing	35
+VT	ExonicFunc.refGene	stopgain	50
+VT	ExonicFunc.refGene	stoploss	50
+VT	ExonicFunc.refGene	frameshift_insertion	50
+VT	ExonicFunc.refGene	frameshift_deletion	50
+VT	VARIANT_TYPE	exonic_nonframeshift_deletion_	50
+VT	VARIANT_TYPE	exonic_stopgain_	50
+GN	Gene Symbol
+GN	Gene.refGene
+#QC	Quality Control	Value
+#QC	Coverage	8
+#QC	Hete_Balance	25
+VS	Variant Score Threshold	Value
+VS	Score	0
