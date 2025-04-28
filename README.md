@@ -24,13 +24,6 @@ tar -xvf annovar.latest.tar.gz -C ~/bin/
 git clone https://github.com/duncanMR/VPOT-nf ~/bin/VPOT-nf
 git clone https://github.com/duncanMR/vcf-prioritise ~/bin/vcf-prioritise
 ```
-- Add Annovar to `$PATH` (replace .bashrc with .zshrc if you use zsh as your shell)
-``` 
-$echo "export PATH=$PATH:~/bin/annovar" >> ~/.bashrc
-$exec "$SHELL" #restart shell
-$which table_annovar.pl  #check that Annovar's executable is in $PATH
-/home/duncan/bin/annovar/table_annovar.pl
-```
 - Install Annovar annotation databases which you would like to use; for a list of all databases for a certain reference genome (e.g. hg19), run
 
 ```
@@ -46,7 +39,7 @@ annotate_variation.pl -buildver hg19 -downdb -webfrom annovar refGene ~/bin/anno
 | Argument      | Description                                                                   |
 |:--------------|:------------------------------------------------------------------------------|
 | --vcf         | Unannotated VCF file to be analysed                                           |
-| --panelset   | CSV file with the list of genes and associated panels                         |
+| --genepanel           | CSV file with genes and their assignments to panels                 |
 
 ## Optional inputs
 | Argument           | Description                                                                                                  | Default                                             |
@@ -54,11 +47,12 @@ annotate_variation.pl -buildver hg19 -downdb -webfrom annovar refGene ~/bin/anno
 | --output_dir         | Directory in which to output results                                                                         | "results"                                           |
 | --humandb_dir        | Directory in which annovar databases are stored                                                              | "~/bin/annovar/humandb"                             |
 | --vpot_dir           | Directory in which VPOT-nf is installed                                                                      | "~/bin/VPOT-nf"                                     |
-| --buildver           | Reference genome used for alignment                                                                          | "hg19"                                              |
+| --ref_name           | Reference genome used for alignment                                                                          | "hg19"                                              |
 | --annovar_params     | Argument to be passed to ANNOVAR which specifies which annotation databases to use                           | Default annovar parameters (see below)              |
 | --vpot_params        | VPOT parameter file location                                                                                 | "${params.vpot_dir}/default_params/default_ppf.txt" |
 | --column_file        | Optional CSV file which specifies which headings to use in the excel file and their order. Ignored if "None" | "None"                                              |
 | --intermediate_files | True/false option for whether to export all intermediate files or not                                        | false                                               |
+| --pre_annotated         | Indicates whether VCF has already been annotated                                                                         | False                                           |
 
 The default Annovar parameters are `-protocol avsnp147,1000g2015aug_all,clinvar_20220320,dbnsfp42a,gnomad_exome,gerp++gt2,caddgt10 -operation f,f,f,f,f,f,f`. Note that all the mentioned annotation databases must be available in your humandb directory for the pipeline to work.
 
