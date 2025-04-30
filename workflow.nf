@@ -1,8 +1,6 @@
 #!/usr/bin/env nextflow
 nextflow.enable.dsl=2
 
-/* Script to filter and prioritise variants from WGS/WES data */
-
 params.vpot_params_abs= file(params.vpot_params).toAbsolutePath().toString()
 
 vcfFile = file(params.vcf)
@@ -11,9 +9,9 @@ if( !vcfFile.exists() ) {
 }
 sampleName = vcfFile.baseName
 
-genePanelFile = file(params.genepanel)
+genePanelFile = file(params.gene_panels)
 if( !genePanelFile.exists() ) {
-    exit 1, "The specified gene panel file does not exist: $params.genepanel"
+    exit 1, "The specified gene panel file does not exist: $params.gene_panels"
 }
 
 if (params.column_file != "None") {
@@ -26,9 +24,6 @@ annotatedVcf = file("${params.output_dir}/${sampleName}.${params.ref_name}_multi
 
 process splitVariants { 
     debug true
-    /*
-     Split variants with multiple alleles into separate lines.
-    */
     input:
     path vcf
 
@@ -43,10 +38,6 @@ process splitVariants {
 
 process annotateGene {
     debug true
-    /*
-     Function to annotate variants using refGene, filtering out variants
-     which did not pass quality control.
-    */
     input:
     path vcf
 
@@ -54,7 +45,7 @@ process annotateGene {
     path "${sampleName}.${params.ref_name}_multianno.vcf"
 
     script:
-    def filterArg = params.exclude_pass_filter ? '' : '--convertarg "--filter \'pass\'"'
+    def filterArg = params.enable_pass_filter ? '--convertarg "--filter \'pass\'"' : ''
 
     """
     ${params.annovar_dir}/table_annovar.pl ${vcf} ${params.humandb_dir} -buildver ${params.ref_name} \
@@ -64,10 +55,6 @@ process annotateGene {
 }
 
 process filterByGene {
-    /*
-     Function to extract the list of genes from the supplied gene panel CSV file
-     and use it to select all variants which are associated with those genes.
-    */
     input:
     path anno_vcf
 
@@ -83,10 +70,6 @@ process filterByGene {
 }
 
 process cleanAnnovarAnnotations {
-    /*
-     Function to clean up ANNOVAR annotations in the INFO column of the VCF file,
-     specifically removing ANNOVAR_DATE and ALLELE_END annotations.
-    */
     input:
     path filtered_vcf
 
@@ -102,10 +85,6 @@ process cleanAnnovarAnnotations {
 
 process annotateAll {
     debug true
-    /*
-     Function to annotate variants using a variety of user-supplied Annovar
-     databases.
-    */
     input:
     path filtered_vcf
 
@@ -123,9 +102,6 @@ process annotateAll {
 
 process vpotPrioritise {
     debug true
-    /*
-     Prioritise the annotated VCF using VPOT.
-    */
     input:
     path vcf
 
@@ -144,10 +120,6 @@ process vpotPrioritise {
 
 process vpotGenePanel {
     debug true
-    /*
-     Output the prioritisation results as a spreadsheet using VPOT-nf's gene
-    panel function.
-    */
     input:
     path vpol
 
@@ -158,7 +130,7 @@ process vpotGenePanel {
 
     shell:
     """
-    python ${params.vpot_dir}/VPOT.py genepanelf "${sampleName}_" $vpol $genePanelFile $params.cancer_type $columnFile
+    python ${params.vpot_dir}/VPOT.py genepanelf "${sampleName}_" $vpol $genePanelFile $params.panel_name $columnFile
     """
 }
 
@@ -167,13 +139,17 @@ workflow {
         println "Already annotated VCF!"
         vpotPrioritise(annotatedVcf)
     } else {
-	if ( params.pre_annotated ) {
+        if ( params.pre_annotated ) {
             println "Gene-filtering pre-annotated vcf"
             filterByGene(vcfFile)
             vpotPrioritise(filterByGene.out)
         } else {
-            splitVariants(vcfFile)
-            annotateGene(splitVariants.out)
+            if ( params.normalise ) {
+                splitVariants(vcfFile)
+                annotateGene(splitVariants.out)
+            } else {
+                annotateGene(vcfFile)
+            }
             filterByGene(annotateGene.out)
             cleanAnnovarAnnotations(filterByGene.out)
             annotateAll(cleanAnnovarAnnotations.out)
