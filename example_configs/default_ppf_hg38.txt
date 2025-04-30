@@ -1,0 +1,26 @@
+PD	Predictors	Type	Low	Value	Mid	Value	High	Value
+PD	1000g2015aug_all	N	0.01	0	0.05	-5	0.1	-10	0.1	-30
+PD	gnomad40_genome_AF	N	0.01	0	0.05	-5	0.1	-10	0.1	-30
+PD	CADD_phred	N	10	0	15	10	20	20	20	40
+PD	FATHMM-XF_coding_score	N	0.8	0	0.9	20	0.9	40
+VT	Variant_annotation	Exception_variant_types	Value
+VT	CLNSIG	Pathogenic/Likely_pathogenic	100
+VT	CLNSIG	Pathogenic	100
+VT	CLNSIG	Likely_pathogenic	80
+VT	CLNSIG	drug_response	80
+VT	CLNSIG	Conflicting_interpretations_of_pathogenicity	40
+VT	CLNSIG	Uncertain_significance	20
+VT	CLNSIG	Likely_benign	-80
+VT	CLNSIG	Benign	-100
+VT	CLNSIG	Benign/Likely_benign	-100
+VT	ExonicFunc.refGene	splicing	35
+VT	ExonicFunc.refGene	stopgain	50
+VT	ExonicFunc.refGene	stoploss	50
+VT	ExonicFunc.refGene	frameshift_insertion	50
+VT	ExonicFunc.refGene	frameshift_deletion	50
+VT	VARIANT_TYPE	exonic_nonframeshift_deletion_	50
+VT	VARIANT_TYPE	exonic_stopgain_	50
+GN	Gene Symbol
+GN	Gene.refGene
+VS	Variant Score Threshold	Value
+VS	Score	-200
